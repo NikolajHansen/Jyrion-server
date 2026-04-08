@@ -18,8 +18,8 @@ export function useServerEvents() {
         if (data.playerId) {
           dispatch(apiSlice.util.invalidateTags([{ type: 'Player', id: data.playerId }]))
         }
-      } catch {
-        // ignore parse errors
+      } catch (err) {
+        console.warn('Failed to parse player.statusChanged event', err)
       }
     })
 
@@ -29,8 +29,8 @@ export function useServerEvents() {
         if (data.playerId) {
           dispatch(apiSlice.util.invalidateTags([{ type: 'Queue', id: data.playerId }]))
         }
-      } catch {
-        // ignore parse errors
+      } catch (err) {
+        console.warn('Failed to parse player.queueChanged event', err)
       }
     })
 

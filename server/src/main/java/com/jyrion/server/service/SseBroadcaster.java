@@ -38,6 +38,7 @@ public class SseBroadcaster {
                         .name(event.eventType())
                         .data(event));
             } catch (IOException e) {
+                log.debug("SSE emitter failed, removing it", e);
                 dead.add(emitter);
             }
         }

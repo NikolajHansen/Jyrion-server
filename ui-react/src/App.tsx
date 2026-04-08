@@ -1,4 +1,4 @@
-import { useGetPlayersQuery, useGetPlayerStatusQuery, useSendCommandMutation } from './api/apiSlice'
+import { useGetPlayersQuery, useGetPlayerStatusQuery, useSendCommandMutation, PlayerCommand } from './api/apiSlice'
 import { useAppDispatch, useAppSelector } from './store/hooks'
 import { setSelectedPlayer } from './store/uiSlice'
 import { useServerEvents } from './hooks/useServerEvents'
@@ -17,9 +17,9 @@ function App() {
 
   const [sendCommand] = useSendCommandMutation()
 
-  const send = (type: string, extra?: object) => {
+  const send = (command: PlayerCommand) => {
     if (!selectedPlayerId) return
-    sendCommand({ playerId: selectedPlayerId, command: { type, ...extra } as any })
+    sendCommand({ playerId: selectedPlayerId, command })
   }
 
   return (
@@ -71,10 +71,10 @@ function App() {
               )}
 
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                <button onClick={() => send('play')}>▶ Play</button>
-                <button onClick={() => send('pause')}>⏸ Pause</button>
-                <button onClick={() => send('togglePause')}>⏯ Toggle</button>
-                <button onClick={() => send('stop')}>⏹ Stop</button>
+                <button onClick={() => send({ type: 'play' })}>▶ Play</button>
+                <button onClick={() => send({ type: 'pause' })}>⏸ Pause</button>
+                <button onClick={() => send({ type: 'togglePause' })}>⏯ Toggle</button>
+                <button onClick={() => send({ type: 'stop' })}>⏹ Stop</button>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -85,10 +85,10 @@ function App() {
                   min={0}
                   max={100}
                   value={status.volume}
-                  onChange={(e) => send('setVolume', { volume: Number(e.target.value) })}
+                  onChange={(e) => send({ type: 'setVolume', volume: Number(e.target.value) })}
                   style={{ width: 160 }}
                 />
-                <button onClick={() => send('mute', { muted: !status.muted })}>
+                <button onClick={() => send({ type: 'mute', muted: !status.muted })}>
                   {status.muted ? '🔇 Unmute' : '🔕 Mute'}
                 </button>
               </div>

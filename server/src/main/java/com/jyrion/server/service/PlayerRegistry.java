@@ -94,9 +94,8 @@ public class PlayerRegistry {
                 yield new PlayerStatus(current.playerId(), PlaybackState.PLAYING, current.volume(), current.muted(),
                         track, 0, System.currentTimeMillis());
             }
-            case PlayerCommand.QueueAdd qa -> {
-                // No-op in demo: uri not resolved
-                broadcaster.publish(new DomainEvent("player.queueChanged", playerId, Map.of("playerId", playerId)));
+            case PlayerCommand.QueueAdd ignored -> {
+                // No-op in demo: uri not resolved, queue unchanged
                 yield current;
             }
         };
