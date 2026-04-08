@@ -1,6 +1,6 @@
 # Jyrion-server
 
-The Java-based Lyrion server alternative.
+The Java-based Lyrion server alternative. (Mostly for fooling around with GitHub agents)
 
 ## Project structure
 
