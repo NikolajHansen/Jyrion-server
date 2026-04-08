@@ -10,15 +10,18 @@ export interface HealthResponse {
 export interface Player {
   id: string
   name: string
-  model: string
 }
+
+export type PlaybackState = 'PLAYING' | 'PAUSED' | 'STOPPED'
 
 export interface PlayerStatus {
   playerId: string
-  power: boolean
-  playing: boolean
+  state: PlaybackState
   volume: number
-  track: Track | null
+  muted: boolean
+  nowPlaying: Track | null
+  positionMs: number
+  timestamp: number
 }
 
 export interface Track {

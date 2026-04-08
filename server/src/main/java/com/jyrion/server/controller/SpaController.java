@@ -6,18 +6,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * SPA fallback controller: forwards any non-API, non-asset request to /index.html
- * so that React Router client-side routes work without 404s.
+ * so that React client-side routes work without 404s.
+ *
+ * The pattern {@code [^\\.]*} ensures only path segments without a dot (no file
+ * extension) are matched, preventing static assets from being intercepted.
  */
 @Controller
 public class SpaController {
 
     @RequestMapping(value = {
             "/{path:[^\\.]*}",
-            "/{path:[^\\.]*}/**"
+            "/{path1:[^\\.]*}/{path2:[^\\.]*}",
+            "/{path1:[^\\.]*}/{path2:[^\\.]*}/{path3:[^\\.]*}"
     })
     public String forward(HttpServletRequest request) {
         String path = request.getRequestURI();
-        // Do not forward API calls or paths with a file extension (static assets)
         if (path.startsWith("/api/")) {
             return null;
         }
